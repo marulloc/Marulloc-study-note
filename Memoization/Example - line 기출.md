@@ -122,10 +122,13 @@ while now_c < MAX:
 # cony[x]의 값과 brown이 x에 도달하는데 걸린시간이 같은 경우를 찾는다.
 queue = deque([])
 queue.append((b_start, 0))
+visited = set()
 
 answer = -1
 while queue:
     now = queue.popleft()
+
+
     if now[0] >= MAX : continue
 
     if cony[now[0]] == now[1]:
@@ -136,9 +139,16 @@ while queue:
     next_2 = (now[0] + 1, now[1] + 1)
     next_3 = (now[0] * 2, now[1] + 1)
 
-    if next_1[0] < MAX: queue.append(next_1)
-    if next_2[0] < MAX: queue.append(next_2)
-    if next_3[0] < MAX: queue.append(next_3)
+    if next_1[0] >= 0 and not next_1 in visited :
+        visited.add(next_1)
+        queue.append(next_1)
+    if next_2[0] < MAX and not next_2 in visited:
+        visited.add(next_2)
+        queue.append(next_2)
+    if next_3[0] < MAX and not next_3 in visited:
+        visited.add(next_3)
+        queue.append(next_3)
 
 print(answer)
+
 ```
