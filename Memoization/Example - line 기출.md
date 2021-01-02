@@ -58,12 +58,12 @@ while queue:
             brown[now[0] - 1] = now[1] + 1
             queue.append((now[0] - 1, now[1] + 1))
 
-    if now[0] + 1 <= 200000:
+    if now[0] + 1 < MAX:
         if brown[now[0] + 1] > now[1] + 1:
             brown[now[0] + 1] = now[1] + 1
             queue.append((now[0] + 1, now[1] + 1))
 
-    if now[0] * 2 <= 200000:
+    if now[0] * 2 < MAX:
         if brown[now[0] * 2] > now[1] + 1:
             brown[now[0] * 2] = now[1] + 1
             queue.append((now[0] * 2, now[1] + 1))
@@ -74,7 +74,7 @@ now_c = c_start
 w = 0
 time = 0
 catch_flag = False
-while now_c <= 200000:
+while now_c < MAX:
     if brown[now_c] == time:
         catch_flag = True
         break
@@ -126,7 +126,7 @@ queue.append((b_start, 0))
 answer = -1
 while queue:
     now = queue.popleft()
-    if now[0] > 2000000 : continue
+    if now[0] >= MAX : continue
 
     if cony[now[0]] == now[1]:
         answer = now[1]
@@ -136,9 +136,9 @@ while queue:
     next_2 = (now[0] + 1, now[1] + 1)
     next_3 = (now[0] * 2, now[1] + 1)
 
-    if next_1[0] <= 200000: queue.append(next_1)
-    if next_2[0] <= 200000: queue.append(next_2)
-    if next_3[0] <= 200000: queue.append(next_3)
+    if next_1[0] < MAX: queue.append(next_1)
+    if next_2[0] < MAX: queue.append(next_2)
+    if next_3[0] < MAX: queue.append(next_3)
 
 print(answer)
 ```
