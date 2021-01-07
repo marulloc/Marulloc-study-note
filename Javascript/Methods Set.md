@@ -25,7 +25,7 @@ const onlyone2 = new Set(arr2)                        //=> { {x:1, y:2}, {x:1, y
 <br>
 <br>
 
-# Stringify 와 parse를 사용하자 - 문자열로 바꿔서, primitive 타입 배열로 바꾸자
+### Stringify 와 parse를 사용하자 - 문자열로 바꿔서, primitive 타입 배열로 바꾸자
 
 ```Javascript
 const arr = [[1,2], [1,3], [1,2], [1,2]]

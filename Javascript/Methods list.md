@@ -110,11 +110,37 @@
   - element : 처리할 현재 요소
   - idx : 처리한 현재 요소의 인덱스
   - array: filter를 호출한 배열
+- filter는 callback함수가 반환하는 원소만을 담은 배열을 반환한다.
+  - 아래 코드 주석처리된 return문을 보면, 오브젝트에 담아서 원소를 반환하든, 문자로 바꿔서 반환하든, 원래 type을 유지한 원소만 추가된다.
+  - 가공은 안하고, 진짜 필터링만 담당하는 메소드라고 생각하면 된다.
 
 ```Javascript
-const arr = [1,10,2,20,3,30]
+arr = [1,10,2,20,3,30]
 
+filteredIdx = []
+filtered = arr.filter((v,idx) => {
+    if (v % 10 === 0){
+        filteredIdx.push(idx)
+        return v
+        //return String(v)  -> 원하는대로 안됨
+        //return (v, idx)   -> 원하는대로 안됨
+    }
+})
 ```
+
+간단하게 10의 배수만 담은 배열로 바꾸고 싶다면
+
+```Javascript
+arr = [1,10,2,20,3,30]
+filtered = arr.filter((v) => v % 10 === 0)
+```
+
+<br>
+<br>
+
+### Map
+
+### Filter + Map
 
 ```Javascript
 a = [1,2,5,4,5]
