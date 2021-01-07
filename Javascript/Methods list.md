@@ -1,32 +1,41 @@
-### list
+### List
 
-1. 배열 끝 추가 `const length = arr.push(x)`
+1. **배열 끝 추가 `const length = arr.push(x)`**
 
    - arr이 변경된 후
    - arr의 길이가 반환된다.
 
-2. 배열 끝 제거 `const popNode = arr.pop()`
+<br>
 
+2. **배열 끝 제거 `const popNode = arr.pop()`**
    - arr이 변경되고
    - pop된 데이터가 반환된다.
 
-3. 배열 앞 추가 `const length = arr.unshift(x)`
+<br>
+
+3. **배열 앞 추가 `const length = arr.unshift(x)`**
 
    - arr이 변경되고
    - arr의 길이가 반환된다.
 
-4. 배열 앞 제거 `const newArr = arr.shift()`
+<br>
+
+4. **배열 앞 제거 `const newArr = arr.shift()`**
 
    - arr이 변경되고
    - unshift된 데이터가 반환된다.
 
-5. 배열 안, 데이터가 위치한 인덱스 찾기 `const idx = arr.indexOf(x)`
+<br>
+
+5. **배열 안, 데이터가 위치한 인덱스 찾기 `const idx = arr.indexOf(x)`**
 
    - x 값이 위치한 인덱스 반환됨
    - 값이 여러개면, 앞에 위치한 인덱스 반환하고 끝
    - 존재하지 않으면 -1을 반환한다.
 
-6. 인덱스 위치로 항목 추가, 제거`const removed = arr.splice( 시작 인덱스, 개수 , 값 )`
+<br>
+
+6. **인덱스 위치로 항목 추가, 제거`const removed = arr.splice( 시작 인덱스, 개수 , 값 )`**
 
    - 첫번째 인자는 인덱스 위치, 두번째 인자는 개수다
    - 세번째 인자가 있으면, 추가하는 것이고 없으면 삭제한다.
@@ -34,7 +43,9 @@
      - n개를 교체할 때, n개의 원소가 모두 값으로 치환되는 것이 아니라, n개 전체를 1개의 값으로 바꾸는 것임
    - 반환값은 교체되는 배열이다.
 
-7. 배열 복사 `const newArr = arr.slice()`
+<br>
+
+7. **배열 복사 `const newArr = arr.slice()`**
 
    - 깊은 복사다.
    - 그러나 배열 안에 오브젝트가 있으면 오브젝트의 속성까지는 깊은 복사가 되지 않는다. 이런 경우의 배열이라면 `JSON.stringify()`로 만든후 새로운 변수에 할당한 후 `JSON.parse()`로 오브젝트로 만드는 것이 더 빠르다.
@@ -65,12 +76,50 @@
    };
    ```
 
-8. join, toString
+<br>
 
-9. concat
+8. **배열을 문자열로 만들기 join, `const stringArr = arr.join(구분자)`**
 
-### Object { k:v }
+   - 각 원소사이에 구분자를 넣은 문자열을 반환해준다.
+   - 인자를 안넣으면, 걍 다 붙여서 반환
 
-### Set { }
+<br>
 
-### Sort
+9. **문자열을 배열로 만들기 split `const arr = something.split(구분자)`**
+
+   - 문자열을 인자로 들어간 구분자로 분리해서 배열로 반환
+   - 인자가 없으면, 문자 하나하나가 배열의 원소가 된다.
+
+<br>
+
+10. **값이나 배열을 합치기 concat `const newArr = arr.concat(1,2,3,[4,5])`**
+
+- 기존 배열에, 인자로 들어온 값이나 배열을 합침
+- 원본은 변하지 않음
+- 새로운 배열을 반환
+- 새로운 배열은 인자가 배열로 들어오더라도 depth가 1이다. `[1,2,3,4,5]`가 됨
+
+<br>
+<br>
+
+### 배열 Map Filter 사용
+
+1. **filter(callback)**
+
+- callback은 세개의 인자를 갖는다. callback(element, idx, array)
+  - element : 처리할 현재 요소
+  - idx : 처리한 현재 요소의 인덱스
+  - array: filter를 호출한 배열
+
+```Javascript
+const arr = [1,10,2,20,3,30]
+
+```
+
+```Javascript
+a = [1,2,5,4,5]
+
+b = a.filter((value)=>{
+        if(value == 5) return value})
+    .map((value)=>value*5)
+```
