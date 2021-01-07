@@ -102,9 +102,7 @@
 <br>
 <br>
 
-### 배열 Map Filter 사용
-
-1. **filter(callback)**
+### **filter(callback)**
 
 - callback은 세개의 인자를 갖는다. callback(element, idx, array)
   - element : 처리할 현재 요소
@@ -138,9 +136,46 @@ filtered = arr.filter((v) => v % 10 === 0)
 <br>
 <br>
 
-### Map
+### Map(callback)
 
-### Filter + Map
+- callback은 세개의 인자를 갖는다. callback(element, idx, array)
+  - element : 처리할 현재 요소
+  - idx : 처리한 현재 요소의 인덱스
+  - array: map를 호출한 배열
+- map은 callback함수에 의해 변환된 원소들을 담은 배열을 반환한다..
+
+```Javascript
+arr = [10,20,30,40]
+
+mapped = arr.map((v,idx) => {
+  console.log(idx)
+  return Math.floor(v / 10)
+})
+```
+
+간단한 예제
+
+```Javascript
+arr = [1,4,9,16,25]
+// 제곱근 만들기
+sqrtArr = arr.map(Math.sqrt)
+    //=> [1,2,3,4,5]
+
+// 문자로 바꾸기
+charArr = arr.map(String)
+    //=> ["1","2","3","4","5"]
+
+// pair를 좌표 객체로 바꾸기
+arr2 = [[1,2],[2,3],[3,4],[4,5]]
+coordinations = arr2.map((v)=>{
+    return {
+        x : v[0],
+        y : v[1]
+    }
+})  //=> [{x:1, y:2}, {x:2,y:3}, {x:3,y:4}, {x:4,x:5}]
+```
+
+### Filter + Map Chaining
 
 ```Javascript
 a = [1,2,5,4,5]
