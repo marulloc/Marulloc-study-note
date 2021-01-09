@@ -184,3 +184,22 @@ b = a.filter((value)=>{
         if(value == 5) return value})
     .map((value)=>value*5)
 ```
+
+<br>
+<br>
+
+### Sort
+
+```Javascript
+student = [
+    { name : "A", eng : 10, math: 10 },
+    { name : "B", eng : 50, math: 75 },
+    { name : "C", eng : 50, math: 50 },
+    { name : "D", eng : 90, math: 10 }
+]
+
+student.sort((a,b)=>{
+    if (a["eng"] !== b["eng"]) return a["eng"] - b["eng"]
+    else return a["math"] - b["math"]
+})
+```
