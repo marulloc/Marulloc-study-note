@@ -368,9 +368,34 @@ function Child({childRef}){
 
 ### [***React optimization***] React.memo
 
+<br>
+<br>
+
 ### [***React optimization***] useMemo
 
+- 컴포넌트가 리-렌더 되는 상황에서도, 어떤 함수의 결과 값을 저장하기 위해 사용하는 훅
+- `const result = useMemo(()=>someFunc, deps)`
+  - 인자로 실행할 함수와 의존성 배열을 받는다.
+  - someFunc의 결과값을 그대로 반환한다.
+- 컴포넌트가 리-렌더 되더라도 의존성배열이 변하지 않으면 이전의 결과값을 재사용 한다.
+- someFunc의 동작에 비교적 긴 시간이 든다면 최적화에 효율적인 훅이다.
+
+> lodash의 메모이제이션과 비슷하다고 하는데 lodash가 뭐하는 앤지 제대로 알아볼 필요가 있음
+
+<br>
+<br>
+
 ### [***React optimization***] useCallback
+
+- 컴포넌트가 리-렌더 되는 상황에서도, 어떤 함수가 재생성 되지 않도록하기 위해 사용하는 훅
+- 컴포넌트의 속성값에 함수 리터럴을 작성하는 경우가 있는데, 컴포넌트가 리-렌더 될 때 React.memo를 사용하더라도 함수가 재생성되면서 자식 컴포넌트를 불필요하게 리-렌더되게 만든다.
+- **함수를 재생성 하는것은 성능에 미치는 영향이 적지만** 리-렌더되는데 성능을 저하시킨다.
+- `const someFunc = useCallack(()=>{....}, deps)`
+  - 인자로 기억해야되는 함수와 의존성 배열을 받는다.
+  - 의존성 배열이 바뀔 때만 함수를 재생성한다.
+
+<br>
+<br>
 
 ### [***React optimization***] Virtual DOM optimization
 
