@@ -329,6 +329,38 @@ function Child({childRef}){
 
 ### [***Hooks***] useContext (Context API)
 
+- 상태를 DOM Tree 깊은 곳까지 넘겨줘야 할 때, Context API를 사용한다.
+- Context API는 다음과 같이 구성되어 있다.
+  - `createContext()`, `<Provider value={}/>`, `<Consumer>{()=>{...}}<Consumer/>`
+- `createContext(초기값)`로 전역으로 관리할 컨텍스트 객체를 생성한다.
+  - 컨텍스트 객체 내부에 `<Provider>`와 `<Consumer>`컴포넌트가 정의되어 있다.
+- `<Provider value={}>`
+  - provider 컴포넌트의 value 속성으로 컨텍스트 객체가 갖는 값을 조절한다.
+  - value 값이 변경되면 하위의 "모든" Consumer 컴포넌트는 리-렌더된다.
+    - React.memo등으로 메모이제이션을 하더라도 Consumer 컴포넌트는 리-렌더 된다.
+- `<Consumer>`
+  - Consumer 컴포넌트는 children에 함수를 놓는 형태로 작성한다.
+  - 실제로도 children에 준 함수가 호출되면서 컨텍스트의 값을 사용하게 된다.
+  - Conumser의 children 함수는 DOM Tree를 타고 올라가면서 컨텍스트의 값을 찾는다. Provider를 찾을 때 까지 타고 올라가는데, 못찾으면 createContext에 작성한 초깃값을 가져와서 쓰게 된다.
+
+<br>
+
+> **Provider의 value 속성에 리터럴로 할당하면**
+> 컨텍스트의 내용은 바뀌지 않았는데, Provider가 속한 컴포넌트가 리-렌더 될 때마다, value 속성에 새로운 객체가 할당되면서 모든 Consumer가 리-렌더 되니 주의하자
+
+<br>
+
+#### useContext hook
+
+- 속성값에 가독성을 추가하는 것이 Context API의 목적이다.
+- `<Consumer>` 컴포넌트의 children 함수에서만 컨텍스트 객체에 접근할 수 있는데, 컨텍스트 객체를 함수 컴포넌트 return문 외부에서도 접근하기 위해 사용하는 훅이 useContext다.
+
+<br>
+
+> #### useReducer + ContextAPI
+>
+> 보통 useReducer와 Context API를 함께 사용하는데, 컨텍스트를 write하는 자식 컴포넌트가 있고 컨텍스트를 Read만 하는 자식 컴포넌트가 있을 수 있다. 만약 useReducer가 반환하는 dispatch 함수 또한 상태값과 하나의 컨텍스트에서 관리한다면, 컨텍스트를 Read만 하는 컴포넌트도 리-렌더 되므로 dispatch를 위한 컨텍스트를 따로 만드는 것이 좋다. <br> 뿐만 아니라, Context를 쓰임에 맞게 적당히 쪼개는 것도 최적화에 도움이 되므로 설계를 잘하자.
+
 <br>
 <br>
 
