@@ -108,6 +108,15 @@ const onClick = () => {
 
 ## **_3. Hooks_**
 
+### [***Hooks***] Hook 사용 규칙
+
+1. 컴포넌트 내에서 hook 호출 순서는 항상 같아야 한다.
+   - React가 useState 와 useEffect 가 여러 번 호출되는 중에도 Hook의 상태를 올바르게 유지할 수 있다 → React가 Hook이 호출되는 순서에 의존하여 각 useState와 useEffect를 구분하기 때문!
+   - 참고: [https://ko.reactjs.org/docs/hooks-rules.html#explanation](https://ko.reactjs.org/docs/hooks-rules.html#explanation)
+2. 함수형 컴포넌트나 커스텀 훅 내에서만 호출되어야 한다.
+
+<br>
+
 ### [***Hooks***] useState
 
 - 함수형 컴포넌트에 상태를 추가하기 위해 사용하는 Hook.
