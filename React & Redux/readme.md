@@ -312,7 +312,20 @@ function Child({childRef}){
 <br>
 <br>
 
-### [***Hooks***] useReducer &
+### [***Hooks***] useReducer
+
+- 여러 상태를 하나의 객체에 묶어 관리할 때 쓰는 훅이다.
+  - useState를 써도 되지만, useReducer를 쓰는 것이 적합하다. 이유는??
+  - 상태 변경 코드로직을 리듀서 함수에 작성하면서, UI 코드와 분리하여 가독성을 높일 수 있다.
+- 훅의 반환값은 [상태, dispatch] 함수다.
+- 훅의 인자로는 "리듀서 함수"와 "초기값"이다.
+- 리듀서함수는 **순수함수**여야 한다.
+  - 리듀서함수는 액션 type에 따라, 상태를 처리하는 로직을 담고 있다.
+  - 순수함수:
+- 여러 상태를 다루기 때문에, reducer가 관리하는 상태는 DOM Tree 깊은 곳, 다양한 컴포넌트에 사용될 확률이 높다. 이때 context API와 useReducer 훅을 사용하면 편리하다.
+
+<br>
+<br>
 
 ### [***Hooks***] useContext (Context API)
 
