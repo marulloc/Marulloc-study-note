@@ -116,6 +116,7 @@ const onClick = () => {
 2. 함수형 컴포넌트나 커스텀 훅 내에서만 호출되어야 한다.
 
 <br>
+<br>
 
 ### [***Hooks***] useState
 
@@ -136,6 +137,15 @@ const onClick = () => {
   - useState 훅의 상탯값 변경함수는 이전 상탯값을 덮어쓴다.
   - useState 훅은 이전 상탯값을 덮어쓰기 때문에 ...state와 같은 코드가 필요하다. 이렇게 상탯값을 하나의 객체로 관리할 때는 useReducer 훅을 사용하는 것이 좋다.
 
+<br>
+
+**🤔 좀더 검증이 필요한 뽀인트들**
+
+- setState 함수는 비동기로 처리되는데 메인 프로세스 중에 호출된 모든 setState가 모두 처리되기 전에 컴포넌트가 렌더링되지는 않는다.
+- 상태에 대한 동일한 key에 접근하여 값을 변경하는 setState에 대해서는 가장 마지막에 있는 setState만 적용이 된다. setState에 갱신될 상태값을 넣으면 동일한 key에 대해서는 가장 마지막 setState만 갱신됨.
+- `window.addEventListener('click')` 과 같이 React에서 직접적으로 관리하지 않는 영역에서 상태변경함수를 사용할 경우엔 동기적으로 실행 → ReactDOM.unstable_batchUpdate 사용
+
+<br>
 <br>
 
 ### [***Hooks***] useEffect
