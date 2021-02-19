@@ -271,15 +271,50 @@ useEffect(() => {
 <br>
 <br>
 
-### [***Hooks***] useReducer
-
-### [***Hooks***] useContext (Context API)
-
 ### [***Hooks***] useLayoutEffect
+
+- useEffect와 비슷하지만, 호출 시점과 동작 방식이 다르다.
+  - **가상돔 렌더링 결과 도출 -> 실제돔에 반영 -> 브라우저에 적용 -> useEffect "비동기"로 동작**
+- useLayoutEffect는 동기적으로 호출된다.
+  - **가상돔 렌더링 결과 도출 -> 실제돔에 반영 -> useLayoutEffect 동기 동작 -> 브라우저에 적용**
+  - useEffect에서 화면이 업데이트 된후 useEffect 내부에서 DOM을 재조정하는 경우 "화면 깜빡임" 이슈가 발생한다. 이때 useLayoutEffect를 고려하면 된다.
+  - 대신 useLayoutEffect는 동기적으로 동작하기 때문에 너무 긴 작업을 하게 되면, 완료되는 순간까지 사용자가 브라우저를 이용할 수가 없다.
+
+<br>
+<br>
 
 ### [***Hooks***] useImperativeHandle
 
+- 클래스형 컴포넌트에서는 자식 컴포넌트 인스턴스의 메소드나 변수에 접근이 가능하다. 자식 컴포넌트의 메소드나 변수에 접근하는 것은 "의존성" 이슈 때문에 지양해야 하지만, 해야될 때가 있다.
+- 함수형 컴포넌트에서도 자식 컴포넌트의 메소드나 변수에 접근하고자 만든 훅이 useImperativeHandle이다.
+- useRef가 반환한 객체를 자식 컴포넌트에 넘겨주고,
+- 자식 컴포넌트에서는 받은 Ref 객체를, useImperativeHandle 훅을 이용해 맵핑해주면 된다.
+
+```jsx
+function Child({childRef}){
+  const someMethod = () => {..}
+  const someVar = 100
+  useImperativeHandle(childRef, () => ({
+    someMethod,
+    someVar
+  }))
+}
+```
+
+<br>
+<br>
+
 ### [***Hooks***] useDebugValue
+
+- 커스텀 훅의 내부상태를 자세히 표시하기 위해 사용한다.
+- 브라우저의 디버깅 툴에서 확인 가능하다.
+
+<br>
+<br>
+
+### [***Hooks***] useReducer &
+
+### [***Hooks***] useContext (Context API)
 
 <br>
 <br>
@@ -298,7 +333,3 @@ useEffect(() => {
 <br>
 
 # **_Redux_**
-
-```
-
-```
