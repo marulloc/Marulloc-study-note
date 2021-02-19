@@ -125,7 +125,7 @@ const onClick = () => {
 - 상태 변경은 비동기이며 일괄로 처리된다. 일괄처리 될 때, 호출 순서 === 처리 순서는 보장된다.
   - 만약 상태 변경에 대해 "동기 처리"를 하게 되면, 상태 변경 함수가 호출될 때마다 화면을 다시 그리는 동안 브라우저가 멈추므로 성능 이슈가 발생한다.
   - 일괄 처리: 리액트는 상태 업데이트를 16ms마다 일괄로 처리하여 리-렌더를 진행한다. 만약, 상태 변경을 바로바로 한다면 상태 변경 함수가 호출될 때 마다 화면을 다시 그리므로 성능 이슈가 발생한다.
-- 상태 변경 코드를 동기적으로 실행하기 위해 함수형 업데이트를 사용하기도 한다.
+- 상태 변경 코드를 동기적으로 실행하기 위해 **함수형 업데이트**를 사용하기도 한다.
   - // 최적화 & 테스트 효율성 & 동기적인 실행
 - 상태값은 불변변수로 다뤄야한다.
   - 리액트는 단순비교로 상태 변경을 판단한다.
@@ -186,6 +186,50 @@ const onClick = () => {
   - React에서도 이것을 인지하고 있으며 lint를 제공하고 있다.
 - 부수효과함수에서 상태값이나 속성값을 사용하면 의존성 배열에 넣어주는 것이 국룰
 - 의존성 배열에 들어가야 하는 값은 렌더링과 관련된 값이어야 한다. 어떤 변수의 값이 변경됐는데 컴포넌트가 다시 렌더링되지 않는다면 그 변수는 deps 배열에 넣을 필요가 없다. 전역 변수 등은 `렌더링과 관련된 값` 이 아니다.
+
+<br>
+
+#### 최적화를 위한 함수형 업데이트와 useEffect
+
+의존성 배열을 비우는 것이 최선이다. 예를 들어, 외부에 선언된 비동기 함수를 사용할 때 useCallback 훅과 의존성 배열에 함수를 넣어저눈 것 보다. useEffect가 렌더링마다 실행되게 만들고 분기문으로 처리하는 것이 괜찮은 방식이다.
+
+**함수형 업데이트로 최적화를 하는 경우는 다음과 같다.**
+
+- 렌더링 된 후, 변경된 상태값을 통해 다시 상태값을 변경해야 하는 경우다.
+- count가 바뀔 때 마다 부수효과 함수가 실행된다. onClick함수가 재 생성되고 window에 이벤트핸들러가 부착되고 해제되는 것이 반복된다.
+
+```jsx
+function Component() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    function onClick() {
+      setCount(count + 1);
+    }
+    window.addEventListener("click", onClick);
+    return () => window.removeEventListener("click", onClick);
+  }, [count]);
+  return null;
+}
+```
+
+#### 이것을 함수형 업데이트로 최적화해보자.
+
+```jsx
+useEffect(() => {
+  function onClick() {
+    setCount((count) => count + 1);
+  }
+  window.addEventListener("click", onClick);
+  return () => window.removeEventListener("click", onClick);
+}, []);
+```
+
+- 상태변경 함수에 새로운 상태"값"을 주는 것이 아니라, 상태를 "어떻게" 업데이트 할지를 넘겨주는 **함수형 업데이트**
+- 함수형 업데이트를 사용하면, useEffect나 useCallback에서 동작하는 횟수를 줄일 수 있다.
+
+> useCallback 내부에 작성한 함수에도 함수형 업데이트를 통해 최적화를 할 수 있다.
+> `const onIncrease = useCallback(()=> setNumber(number => number + 1), [])`
+> useCallback이 mount 될 때 동작하고, 이후에는 동작 안하게 만들 수 있다.
 
 <br>
 <br>
@@ -254,3 +298,7 @@ const onClick = () => {
 <br>
 
 # **_Redux_**
+
+```
+
+```
