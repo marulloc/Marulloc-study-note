@@ -411,7 +411,23 @@ function Child({childRef}){
 
 ### [***React optimization***] Virtual DOM optimization
 
+#### Type 속성 변경
+
+#### 동적인 리스트는 key 속성으로
+
 <br>
 <br>
 
 # **_Redux_**
+
+### Context API + useReducer와 다른 점
+
+## Action
+
+## Middleware
+
+## Reducer
+
+## Store
+
+# **_redux-react library_**
