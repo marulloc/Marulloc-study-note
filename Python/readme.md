@@ -135,6 +135,9 @@
 
 # 주요 라이브러리
 
+- 스택은 list의 append메소드와 pop 메소드를 사용하면 된다.
+- 큐의 경우 list의 index메소드를 사용해도 되지만, 속도가 느리다. 따라서 collections의 deque를 import 해와서 dequeu를 queue로 사용한다.
+
 ### itertools
 
 - 순열과 조합 라이브러리를 제공한다.
