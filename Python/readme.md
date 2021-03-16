@@ -59,9 +59,9 @@
     - `result = [ i for i in arr if i not in remove_set ]`
 - 인덱싱과 슬라이싱 가능하다.
 - `+`연산으로 리스트를 합칠 수 있다.
-
-<br>
-<br>
+- `arr.reverse()` - 배열을 뒤집는다. 반환값은 없다. 배열 그자체를 뒤집는다.
+  <br>
+  <br>
 
 ### 튜플 자료형
 
