@@ -68,19 +68,29 @@ replace 말고 다른 메소드에 대해 알아보자.
 
 ### 대소문자 판별
 
-- `string.upper()` 문자열의 모든 문자를 대문자로 변경
-- `string.lower()` 문자열의 모든 문자를 소문자로 변경
-- `string.swapcase()` 문자열의 대문자를 소문자로 변경하고, 소문자를 대문자로 변경한다.
-- `isUpper()` 문자열의 모든 문자가 대문자인 경우 True를 반환, 아니면 False 반환
-- `isLower()` 문자열의 모든 문자가 소문자인 경우 True를 반환, 아니면 False 반환
-- `isalpha()` 문자열의 모든 문자가 영어나 한글로만 이뤄진 경우 True를 반환, 아니면 False를 반환
-- `isdigit()` 문자열의 모든 문자가 숫자인 경우 True를 반환, 아니면 False를 반환
+- `string.upper()`
+  - 문자열의 모든 문자를 대문자로 변경
+- `string.lower()`
+  - 문자열의 모든 문자를 소문자로 변경
+- `string.swapcase()`
+  - 문자열의 대문자를 소문자로 변경하고, 소문자를 대문자로 변경한다.
+- `string.isUpper()`
+  - 문자열의 모든 문자가 대문자인 경우 True를 반환, 아니면 False 반환
+- `string.isLower()`
+  - 문자열의 모든 문자가 소문자인 경우 True를 반환, 아니면 False 반환
+- `string.isalpha()`
+  - 문자열의 모든 문자가 영어나 한글로만 이뤄진 경우 True를 반환, 아니면 False를 반환
+- `string.isdigit()`
+  - 문자열의 모든 문자가 숫자인 경우 True를 반환, 아니면 False를 반환
+- `string.isalnum()`
+  - 문자열의 모든 문자가 숫자 또는 알파벳으로 이뤄진 경우 True를 반환
 
 <br>
 <br>
 
 ### 매치 판별
 
+- `in` 연산자를 통해 부분 문자열이 존재하는지 확인 가능하다.
 - `string.startswith()`
   - 문자열이 매개변수로 입력한 문자열로 시작하면 True를 반환하고 아니면 False를 반환한다.
 - `string.endswith()`
