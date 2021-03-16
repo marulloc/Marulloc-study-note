@@ -53,7 +53,7 @@
   - `arr.reverse()` : 리스트의 순서 뒤집기
   - `arr.insert(인덱스)` : 특정 인덱스 위치에 원소를 삽입 `O(N)`으로 은근 느림
   - `arr.remove(값)` : 특정 값을 갖는 원소를 하나만 삭제
-  - `arr.count(값)` : 특정 값을 갖는 원소의 개수를 센다.
+  - `arr.count(값)` : 특정 값을 갖는 원소의 개수를 센다. **문자열에도 사용 가능**
   - `arr.sort(reverse=True/False)` : True인 경우 내림차순으로 정렬
   - 특정 값을 갖는 모든 원소를 삭제하려면? `not in`을 이용하자.
     - `result = [ i for i in arr if i not in remove_set ]`
