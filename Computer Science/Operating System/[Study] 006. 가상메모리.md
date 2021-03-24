@@ -1,6 +1,5 @@
 # 가상 메모리
 
-참고자료 :
 https://velog.io/@codemcd/%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9COS-15.-%EA%B0%80%EC%83%81%EB%A9%94%EB%AA%A8%EB%A6%AC
 
 ## Logical address, 가상메모리가 필요한 이유
@@ -77,6 +76,29 @@ valid bit이 0일 때, MMU가 CPU에게 보내는 Interrupt다.
 2. DISK I/O를 하기 전, handler는 page cache를 뒤져서 해당 페이지가 있는지 확인한다.
 3. page cache에 page가 없으면, fault handler가 DISK I/O를 시작하고 현재 프로세스는 Blocked가 되어, CPU는 다른 프로세스에게 할당된다.
 
+- **page cache** - S/W로 구현한 cache
+  - OS의 역사는 디스크의 속도와 CPU 속도의 간극을 줄여가는 역사다.
+  - s/w cache란 I/O의 기계적 부분의 느린 속도를 보완하기 위해, 디스크에서 자주 쓰이는 데이터를 메모리로 caching 하는 것이다.
+  - 디스크에서 4KB를 읽어오면, 우선적으로 사용하는 부분은 일부분이다. 안쓴 데이터는 메모리에 KEEP해둔다.(다른 프로세스가 사용할 수 있으니까)
+  - 메모리에서 갱신된 데이터를 바로 디스크에 가서 갱신하지는 않는다.(퍼포먼스 하락할 가능성이 크기 때문이다. 따라서 DIRTY BIT을 사용)
+  - delayed write들은 "sync" 명령어가 들어오면 dirty bit를 참고하여 디스크에 주기적으로 갱신한다.
+
+#### **Clock Interrupt Handler**
+
+- clock interrupt는 대부분 1/1000 초 마다 발생한다.(클락틱마다 발생하는 인터럽트)
+- clock interrupt는 정전/기계 오류/malfunction이 아니면 최우선 순위를 가지는 interrupt다.
+- clock interrupt handler가 하는일
+  - clock interrupt를 통해 system time(실제 시간이 아니라, 부팅된 이후로 tick 얼마나 진행되었나를 카운트 함)을 유지한다.
+  - sleep/alarm의 system call에 대한 시간을 측정하고 서비스한다.
+  - 주기적으로 처리할 일들을 수행한다.
+    1. Timeout Function : 커널 함수를 주기적으로 호출
+    2. 커널 프로세스를 주기적으로 wake up 한다.
+       - 커널 프로세스 : 클락 틱 안에 핸들링 할 수 없는 기능들을 프로세스화 한 것으로 File Sync(디스크 갱신), Swapper(메모리 청소)등의 일을 하는 커널 프로세스가 존재한다.
+- Time slice한 시간을 다 쓰면 reschduling을 하도록 cpu에게 "상기" 시킨다.
+  - clock interrupt handler가 rescheduling을 하는 것이 아니기 때문에
+  - Time Slice가 다 지나면, clock interrupt handler가 스케쥴러에게 Rescheduling을 invoke하고 핸들러는 끝난다.
+  - invoked 된 스케쥴러는 context switch 진행
+
 ### pre-paging
 
 - page fault가 발생해서 해당 page를 들고올 때, 순차적으로 연결된 page 몇개를 함께 들고 온다. 따라서 pre-paging의 동작으로 page fault를 줄이려면, 순차적인 코딩이 중요하다.
@@ -144,8 +166,8 @@ page fault 발생 시 비용이 큰 disk I/O가 발생하기 때문에 page faul
 - Global replacement : 다른 프로세스에 할당된 frame 뺏어올 수 있음.
   - LRU, LFU 전체 페이지 대상으로
   - Working set, PFF 알고리즘
-- Local replacement : 현재 수행중인 프로세스에게 할당된 frame 내에서만 replacement. 프로세스마다 페이지 프레임을 미리 할당하는 것을 전제로 함.
-  - 프로세스별로 LRU, LFU 등의 알고리즘 독자적으로 운영 가능
+- Local replacement : 현재 수행중인 프로세스에게 할당된 frame 내에서만 replacement. 프로세스마다 페이지 프레임을 미리 할당하는 것을 전제로 함. - 프로세스별로 LRU, LFU 등의 알고리즘 독자적으로 운영 가능
+  <br>
 
 ### Thrashing
 
@@ -157,6 +179,8 @@ page fault 발생 시 비용이 큰 disk I/O가 발생하기 때문에 page faul
 - cpu utilization 감소
   - page fault로 인한 disk I/O 빈번하게 발생 -> process block, context swtich 발생 -> OS가 프로세스를 실행하는 시간보다 page fault를 처리하는 오버헤드가 커지므로 cpu utilization은 감소한다.
 
+<br>
+
 ### Working-set
 
 ![](https://camo.githubusercontent.com/8fa002216e42f6a5acb24e1c768d5bb7554ee8a8bc6ec496d35b4c1befa3b1ab/68747470733a2f2f6578616d72616461722e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031362f31302f4578616d706c652d342e362e706e67)
@@ -167,8 +191,11 @@ page fault 발생 시 비용이 큰 disk I/O가 발생하기 때문에 page faul
 - 프로세스의 워킹셋을 구성하는 페이지들이 모두 메모리에 올라갈 수 있는 경우에만 할당
 - 아닌 경우에는 할당된 페이지 프레임 모두 반환한다. 프로세스의 주소 공간 전체를 swap out(Suspended)
 
+<br>
+
 ### Page Fault Frequency: PFF
 
+페이지 부재의 비율은 프로세스에 할당된 프레임의 수에 반비례한다. 즉, 할당된 프레임의 수가 적을수록 페이지 부재 비율은 늘어난다.
 ![](https://camo.githubusercontent.com/345c89bbbf74e538fa320f2ec980824304b654f54ede5dfa7fd5fa7e041824a7/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f70726f78792f444466534750794f566743364d76335a4a4f57582d4c6472706a376c6a647170527a47533176477038714c4c383267737531657371587233722d537969784c586155447869455a5a4a70384837775a7736456961325447434451785762565a7051364e57775937793267336158583374483669446e365434)
 
 프로세스의 page fault frequency를 주기적으로 조사하고 이 값에 근거하여 각 프로세스에 할당할 프레임 수를 조절한다.
